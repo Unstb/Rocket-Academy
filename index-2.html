@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rocket Academy 🚀</title>
+
+<style>
+/* ===== ОБЩИЕ НАСТРОЙКИ ===== */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #2b0a3d, #4b1a75);
+    color: #fff;
+}
+
+/* ===== HEADER ===== */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+}
+
+nav a {
+    color: white;
+    margin-left: 15px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Стили для профиля в шапке */
+#user-profile {
+    display: none;
+    align-items: center;
+    margin-left: 15px;
+    gap: 10px;
+}
+
+#user-display {
+    color: #f5f0e1;
+    background: rgba(255,255,255,0.2);
+    padding: 5px 15px;
+    border-radius: 15px;
+    font-weight: bold;
+}
+
+#logout-btn {
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* ===== HERO ===== */
+.hero {
+    text-align: center;
+    padding: 80px 20px;
+    margin: 20px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 20px;
+}
+
+.hero h1 {
+    font-size: 48px;
+}
+
+.hero p {
+    font-size: 20px;
+}
+
+
+
+
+
+/* ===== BUTTON ===== */
+.btn {
+    background: #f5f0e1;
+    color: #2b0a3d;
+    font-weight: bold;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #fff8f0;
+    transform: scale(1.05);
+}
+
+/* ===== SECTIONS ===== */
+.section {
+    padding: 40px 20px;
+}
+
+/* ===== CARDS ===== */
+.cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* ===== КАРТОЧКИ С РАСКРЫТИЕМ ===== */
+.card {
+    position: relative;
+    overflow: hidden;
+    background: #f5f0e1;
+    color: #2b0a3d;
+    padding: 20px;
+    border-radius: 25px;
+    width: 300px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    text-align: center;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.card img {
+    width: 100%;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+
+.card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(245,240,225,0.95);
+    color: #2b0a3d;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 25px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    overflow-y: auto;
+}
+
+.card:hover .card-overlay {
+    opacity: 1;
+}
+
+.card-overlay p {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.card:hover {
+    transform: translateY(-5px) scale(1.02);
+}
+
+/* ===== FORM (Обновлено для 2 форм) ===== */
+.form {
+    max-width: 350px;
+    margin: auto;
+    background: #f5f0e1;
+    color: #2b0a3d;
+    padding: 25px;
+    border-radius: 25px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+.form label {
+    display: block;
+    text-align: left;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border-radius: 10px;
+    border: none;
+    box-sizing: border-box;
+}
+
+.toggle-form {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+/* ЛИЧНЫЙ КАБИНЕТ */
+#user-dashboard {
+    display: none;
+    text-align: center;
+    background: rgba(255,255,255,0.1);
+    padding: 40px;
+    border-radius: 20px;
+    max-width: 500px;
+    margin: auto;
+}
+
+#admin-tools {
+    display: none;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+/* ===== FOOTER ===== */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: rgba(0,0,0,0.4);
+    margin-top: 40px;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+    }
+
+    .cards {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🚀 Rocket Academy</div>
+    <nav>
+        <a href="#">Главная</a>
+        <a href="#stories">Истории</a>
+        
+        <a href="#login" id="login-link">Вход</a>
+        
+        <div id="user-profile">
+            <span id="user-display"></span>
+            <button id="logout-btn" onclick="handleLogout()">Выйти</button>
+        </div>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Создай свою ракету 🚀</h1>
+    <p>Обучение космосу для детей и подростков</p>
+    <button class="btn" onclick="scrollToStories()">Начать обучение</button>
+</section>
+<!-- ВЫБОР РЕЖИМА -->
+<div id="mode-select" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); justify-content:center; align-items:center; z-index:2000;">
+    
+    <div style="background:#f5f0e1; color:#2b0a3d; padding:30px; border-radius:20px; text-align:center; max-width:300px;">
+        <h2>Выбери режим 🚀</h2>
+        
+        <button class="btn" style="width:100%;" onclick="selectMode('creative')">
+            🎨 Творческий
+        </button>
+        
+        <button class="btn" style="width:100%; margin-top:10px;" onclick="selectMode('advanced')">
+            🧠 Продвинутый
+        </button>
+
+        <p style="margin-top:15px; cursor:pointer;" onclick="closeMode()">Закрыть</p>
+    </div>
+
+</div>
+
+<section class="section" id="stories">
+    <h2>📖 Истории космоса</h2>
+    <div class="cards">
+
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1541185933-ef5d8ed016c2" alt="Ракетостроение">
+            <h3>Ракетостроение</h3>
+            <p>Наведи курсор, чтобы узнать больше</p>
+            <div class="card-overlay">
+                <p>
+                Ракетостроение — это наука и технология создания ракет 🚀, которые используются для запуска спутников, космических кораблей и научных аппаратов.<br><br>
+                Ракета летит благодаря третьему закону Ньютона: газы выбрасываются назад, а ракета движется вперёд.<br><br>
+                Основы ракетостроения заложили учёные:<br>
+                - Константин Циолковский — разработал теорию космических полётов<br>
+                - Роберт Годдард — создал первую ракету на жидком топливе<br><br>
+                Современные ракеты состоят из двигателя, топлива, корпуса и полезной нагрузки (например, спутника). Сегодня ракетостроение позволяет исследовать космос, запускать интернет-спутники и отправлять миссии на Луну и Марс 🌌.
+                </p>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa" alt="История космоса">
+            <h3>История космоса</h3>
+            <p>Наведи курсор, чтобы узнать больше</p>
+            <div class="card-overlay">
+                <p>
+                История космоса охватывает изучение Вселенной с древних времён до современности.  
+                Первые телескопы позволили наблюдать планеты и звёзды.  
+                В XX веке произошёл взрыв космических исследований: первый спутник (Спутник-1, 1957), первый человек в космосе (Юрий Гагарин, 1961), первые лунные миссии.  
+                Сегодня космические исследования включают орбитальные станции, роботизированные миссии на Марс и дальние планеты, а также запуск телекоммуникационных и научных спутников.
+                </p>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/Aidyn_Aimbetov.jpg" alt="Казахские космонавты">
+            <h3>Казахские космонавты</h3>
+            <p>Наведи курсор, чтобы узнать больше</p>
+            <div class="card-overlay">
+                <p>
+                Казахстан внёс значительный вклад в освоение космоса.  
+                Среди известных казахстанских космонавтов:  
+                - Айдын Аимбетов — совершил полёт на МКС, проводил научные эксперименты в космосе  
+                - Токтар Аубакиров — первый казахстанский космонавт  
+                - Талгат Мусабаев — летал на шаттлах и станциях Союз  
+                Эти космонавты представили страну на международной арене и внесли вклад в развитие космических технологий.  
+                Их полёты вдохновляют молодёжь на изучение науки и космоса 🚀.
+                </p>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564" alt="Космические открытия">
+            <h3>Космические открытия</h3>
+            <p>Наведи курсор, чтобы узнать больше</p>
+            <div class="card-overlay">
+                <p>
+                Космические открытия позволили человечеству расширить знания о Вселенной.  
+                Среди них: открытие планет и спутников, наблюдение экзопланет, изучение комет и астероидов.  
+                Телескопы и автоматические станции предоставили изображения дальнего космоса и помогли понять строение галактик.  
+                Современные миссии исследуют Марс, Юпитер и Сатурн, а также ищут следы жизни и условия для будущих полётов человека 🌌.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section class="section">
+    <h2>🔥 Возможности платформы</h2>
+    <div class="cards">
+        <div class="card">📚 Онлайн-курсы</div>
+        <div class="card">🧪 Тесты и задания</div>
+        <div class="card">🏆 Сертификаты</div>
+        <div class="card">👨‍🎓 Личный кабинет</div>
+    </div>
+</section>
+
+<section class="section" id="login">
+    
+    <div id="auth-ui">
+        <div class="form" id="login-box">
+            <h2>Вход</h2>
+            <label>Логин</label>
+            <input type="text" id="login-user" placeholder="Ваш логин">
+            <label>Пароль</label>
+            <input type="password" id="login-pass" placeholder="Ваш пароль">
+            <button class="btn" style="width: 100%;" onclick="handleLogin()">Войти</button>
+            <p class="toggle-form" onclick="toggleForm()">Регистрация нового аккаунта</p>
+        </div>
+
+        <div class="form" id="register-box" style="display: none;">
+            <h2>Регистрация</h2>
+            <label>Имя</label>
+            <input type="text" id="reg-name" placeholder="Иван">
+            <label>Фамилия</label>
+            <input type="text" id="reg-surname" placeholder="Иванов">
+            <label>Логин</label>
+            <input type="text" id="reg-login" placeholder="Придумайте логин">
+            <label>Пароль</label>
+            <input type="password" id="reg-pass" placeholder="Придумайте пароль">
+            <button class="btn" style="width: 100%;" onclick="handleRegister()">Создать аккаунт</button>
+            <p class="toggle-form" onclick="toggleForm()">Уже есть аккаунт? Войти</p>
+        </div>
+    </div>
+
+    <div id="user-dashboard">
+        <h2 id="welcome-msg"></h2>
+        <p>Вы успешно вошли в систему Академии!</p>
+        
+        <div id="admin-tools">
+            <h3>⚙️ Панель Администратора</h3>
+            <button class="btn" style="background: #1a0525; color: white;" onclick="downloadJSON()">
+                📥 Скачать базу (data.json)
+            </button>
+        </div>
+    </div>
+
+</section>
+
+<footer>
+    © 2026 Rocket Academy
+</footer>
+
+<script>
+function scrollToStories() {
+    document.getElementById("mode-select").style.display = "flex";
+}
+// === ЛОГИКА АВТОРИЗАЦИИ ===
+
+// Создаем админа по умолчанию
+function initDB() {
+    let users = localStorage.getItem('rocket_users');
+    if (!users) {
+        const defaultAdmin = [{ name: "Админ", surname: "Системы", login: "admin", pass: "1234" }];
+        localStorage.setItem('rocket_users', JSON.stringify(defaultAdmin));
+    }
+}
+initDB();
+
+function getUsers() {
+    return JSON.parse(localStorage.getItem('rocket_users')) || [];
+}
+
+// Переключение Вход <-> Регистрация
+function toggleForm() {
+    const lBox = document.getElementById('login-box');
+    const rBox = document.getElementById('register-box');
+    if (lBox.style.display === "none") {
+        lBox.style.display = "block";
+        rBox.style.display = "none";
+    } else {
+        lBox.style.display = "none";
+        rBox.style.display = "block";
+    }
+}
+
+// Регистрация
+function handleRegister() {
+    const name = document.getElementById('reg-name').value.trim();
+    const surname = document.getElementById('reg-surname').value.trim();
+    const login = document.getElementById('reg-login').value.trim();
+    const pass = document.getElementById('reg-pass').value.trim();
+
+    if (!name || !surname || !login || !pass) {
+        alert("Заполните все поля!");
+        return;
+    }
+
+    let users = getUsers();
+    if (users.find(u => u.login === login)) {
+        alert("Этот логин уже занят!");
+        return;
+    }
+
+    users.push({ name, surname, login, pass });
+    localStorage.setItem('rocket_users', JSON.stringify(users));
+    
+    alert("Успешно! Теперь войдите под своим логином.");
+    toggleForm(); 
+}
+
+// Вход
+function handleLogin() {
+    const loginVal = document.getElementById('login-user').value.trim();
+    const passVal = document.getElementById('login-pass').value.trim();
+
+    const users = getUsers();
+    const user = users.find(u => u.login === loginVal && u.pass === passVal);
+
+    if (user) {
+        updateUI(user);
+    } else {
+        alert("Неверный логин или пароль!");
+    }
+}
+
+// Обновление экрана после входа
+function updateUI(user) {
+    document.getElementById('login-link').style.display = 'none';
+    const profile = document.getElementById('user-profile');
+    document.getElementById('user-display').innerText = `👤 ${user.name} ${user.surname}`;
+    profile.style.display = 'flex';
+
+    document.getElementById('auth-ui').style.display = 'none';
+    document.getElementById('user-dashboard').style.display = 'block';
+    document.getElementById('welcome-msg').innerText = `Добро пожаловать, ${user.name}!`;
+
+    if (user.login === 'admin') {
+        document.getElementById('admin-tools').style.display = 'block';
+    } else {
+        document.getElementById('admin-tools').style.display = 'none';
+    }
+}
+
+// Выход
+function handleLogout() {
+    document.getElementById('login-link').style.display = 'inline-block';
+    document.getElementById('user-profile').style.display = 'none';
+
+    document.getElementById('auth-ui').style.display = 'block';
+    document.getElementById('user-dashboard').style.display = 'none';
+    
+    // Очищаем поля ввода
+    document.getElementById('login-user').value = '';
+    document.getElementById('login-pass').value = '';
+}
+
+// Скачивание базы (для админа)
+function downloadJSON() {
+    const users = localStorage.getItem('rocket_users');
+    const blob = new Blob([users], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'data.json';
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+function closeMode() {
+    document.getElementById("mode-select").style.display = "none";
+}
+7
+function selectMode(mode) {
+    closeMode();
+
+    if (mode === 'creative') {
+        window.open("creative.html", "_blank");
+    } 
+    
+    if (mode === 'advanced') {
+        window.open("advanced.html", "_blank");
+    }
+}
+</script>
+
+</body>
+</html>
